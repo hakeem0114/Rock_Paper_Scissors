@@ -1,47 +1,80 @@
 const choices = ["rock", "paper", "scissors"];
 let winners = [];
 
+function resetGame(){
+  //reset game
+}
 function game() {
-  for (let i = 1; i <= 5; i++) {
-    playRound(i);
-  }
-  //Press button to start game
-  document.querySelector("button").textContent = "Play another game";
-  // .textContent replaces the current text in the HTML after button is pressed
 
-  logWins();
-
+  //play game will player/comp score =5
+  let imgs = document.querySelectorAll("img") //Gets all images as a nodelist
+  imgs.forEach((img) => //For each image
+    img.addEventListener(("click"),()=> {
+      if(img.id){ //If the image has an id
+        playRound(img.id) //Use player image pressed as input
+      }
+    } )
+  )
 }
 
-function playRound(round) {
-  const playerSelection = playerChoice();
+function playRound(playerChoice) { //img.id = player choice
+
+  let total_wins = checkWins()
+  if (total_wins > 5){ return}
+
   const computerSelection = computerChoice();
-  const winner = checkWinner(playerSelection, computerSelection);
+  const winner = checkWinner(playerChoice, computerSelection);
   winners.push(winner);
-  logRound(playerSelection, computerSelection, winner, round);
+
+  tallyWins()
+  displayRound(playerChoice, computerChoice, winner)
+
+  wins = checkWins()
+  if (wins == 5){
+    displayEnd()
+  }
+
 }
 
-function playerChoice() {
-  let input = prompt("Type Rock, Paper, or Scissors");
-  while (input == null) {
-    input = prompt("Type Rock, Paper, or Scissors");
-  }
-  input = input.toLowerCase();
-  let check = validateInput(input);
-  while (check == false) {
-    input = prompt(
-      "Type Rock, Paper, or Scissors. Spelling needs to be exact, but capitilization doesnt matter"
-    );
-    while (input == null) {
-      input = prompt("Type Rock, Paper, or Scissors");
-    }
-    input = input.toLowerCase();
-    check = validateInput(input);
-  }
-  return input;
+function displayEnd(){
+  let playerWins = winners.filter((item) => item == "Player").length
+
+  if (playerWins == 5){
+    document.querySelector(".winner").textContent = "You won 5 games! Congrats."
+  }else {document.querySelector(".winner").textContent = "Comp won 5 times"}
+
+  document.querySelector(".reset").style.display = "flex"
 }
+
+function displayRound(playerChoice, computerChoice, winner){
+  document.querySelector(".playerChoice").textContent=`Player chose: ${playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)}`
+  document.querySelector(".computerChoice").textContent=`Computer chose: ${computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)}`
+
+  document.querySelector(".winner").textContent = `Round Winner: ${winner}`
+}
+
+function tallyWins(){
+
+  let playerWins = winners.filter((item) => item == "Player").length;
+  let computerWins = winners.filter((item) => item == "Computer").length;
+  let ties = winners.filter((item) => item == "Tie").length;
+  
+  document.querySelector(".playerScore").textContent = `Score : ${playerWins}`
+  document.querySelector(".computerScore").textContent = `Score : ${computerWins}`
+  document.querySelector(".ties").textContent = `Score : ${ties}`
+
+}
+
+function checkWins(){ //Check if player/comp has a score > 5
+  let playerWins = winners.filter((item) => item == "Player").length;
+  let computerWins = winners.filter((item) => item == "Computer").length;
+ 
+  return Math.max(playerWins, computerWins) //Return the max of the 2
+}
+ 
 
 function computerChoice() {
+  //Update DOM with comp selectection
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
@@ -67,16 +100,6 @@ function logWins() {
   let playerWins = winners.filter((item) => item == "Player").length;
   let computerWins = winners.filter((item) => item == "Computer").length;
   let ties = winners.filter((item) => item == "Tie").length;
-  console.log("Results:");
-  console.log("Player Wins:", playerWins);
-  console.log("Computer Wins:", computerWins);
-  console.log("Ties:", ties);
 }
 
-function logRound(playerChoice, computerChoice, winner, round) {
-  console.log("Round:", round);
-  console.log("Player Chose:", playerChoice);
-  console.log("Computer Chose:", computerChoice);
-  console.log(winner, "Won the Round");
-  console.log("-------------------------------");
-}
+game()
