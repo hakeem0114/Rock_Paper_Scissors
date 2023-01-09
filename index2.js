@@ -51,9 +51,13 @@ function displayEnd() {
   if (playerWins == 5) {
     document.querySelector(".winner").textContent =
       "You Won 5 Games, Congrats!";
+      let player_audio = new Audio ("sounds/player_win.mp3")
+      player_audio.play()
   } else {
     document.querySelector(".winner").textContent =
       "Sorry, the computer won 5 times";
+     let comp_audio = new Audio ("sounds/comp_win.mp3")
+     comp_audio.play()
   }
   document.querySelector(".reset").style.display = "flex";
 }

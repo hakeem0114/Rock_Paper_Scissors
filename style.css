@@ -1,5 +1,53 @@
+body{
+    color: rgb(25, 25, 32);
+    background-image: url(images/stage.jpeg);
+}
 
 .reset{
     display: none;
 }
 
+.score, .winnerDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reset{
+    background-color: rgb(167, 59, 59);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+    
+    font-size: 20px;
+    cursor: grab;
+    
+    transition: all 0.3s; /* Time it takes for for transform on hover*/
+}
+.reset:hover{ /*Do the following upon hover*/
+    transform: scale(1.3); /*1 is normal, 1 > is bigger */
+}
+
+.winnerDiv{
+    display: flex;
+    flex-direction: column;
+     justify-content: center;
+     align-items: center;
+}
+.playerSection{
+    color: antiquewhite;
+    margin-top: 10em;
+}
+.computerSection{
+    margin-left: 30%;
+    margin-top: 10em;
+    color: antiquewhite;
+}
+
+.selection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
